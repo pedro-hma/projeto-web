@@ -4,11 +4,10 @@ export default function Home() {
   return (
     <div className="space-y-8">
       {/* HERO */}
-      <section className="bg-gradient-to-r from-green-600 to-emerald-400 p-10 rounded-2xl shadow-2xl border border-green-500/20">
-        <h1 className="text-5xl font-extrabold mb-2"></h1>
-        <p className="text-gray-100">
-          Acompanhe times, jogadores e estatísticas em tempo real
-        </p>
+      <section className="hover:scale-105 transition transform cursor-pointer">
+        <h1>Acompanhe o futebol em tempo real</h1>
+        <p>Times, jogadores e estatísticas atualizadas</p>
+        <button>Ver Times</button>
       </section>
       {/* CARDS */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -1,44 +1,57 @@
 const API_KEY = "77c27e2481a0307bcc6abce6927e1918";
 export async function getGames() {
-  const res = await fetch(
-    "https://v3.football.api-sports.io/fixtures?league=71&season=2026",
-    {
-      headers: {
-        "x-apisports-key": API_KEY,
-      },
-      cache: "no-store",
-    }
-  );
+  try {
+    const res = await fetch(
+      "https://v3.football.api-sports.io/fixtures?league=71&season=2024",
+      {
+        headers: {
+          "x-apisports-key": API_KEY,
+        },
+      }
+    );
+    const data = await res.json();
 
-  const data = await res.json();
+    if (!data.response) return [];
 
-  return data.response.map((item) => ({
-    id: item.fixture.id,
-    home: item.teams.home.name,
-    away: item.teams.away.name,
-    homeLogo: item.teams.home.logo,
-    awayLogo: item.teams.away.logo,
-    score: `${item.goals.home ?? 0}-${item.goals.away ?? 0}`,
-    status: item.fixture.status.short,
-  }));
+    return data.response.slice(0, 10).map((item) => ({
+      id: item.fixture.id,
+      home: item.teams.home.name,
+      away: item.teams.away.name,
+      homeLogo: item.teams.home.logo,
+      awayLogo: item.teams.away.logo,
+      score: `${item.goals.home ?? 0}-${item.goals.away ?? 0}`,
+      status: item.fixture.status.short,
+    }));
+  } catch (err) {
+    return [];
+  }
 }
-// 🏆 TIMES
 export async function getTeams() {
-  const res = await fetch(
-    "https://v3.football.api-sports.io/teams?league=71&season=2026",
-    {
-      headers: {
-        "x-apisports-key": API_KEY,
-      },
-      cache: "no-store",
+  try {
+    const res = await fetch(
+      "https://v3.football.api-sports.io/teams?league=71&season=2024",
+      {
+        headers: {
+          "x-apisports-key": API_KEY,
+        },
+      }
+    );
+    const data = await res.json();
+    console.log("TEAMS:", data);
+
+    if (!data || !data.response) {
+      console.error("Erro API:", data);
+      return [];
     }
-  );
-  const data = await res.json();
-  return data.response;
+    return data.response;
+  } catch (err) {
+    console.error("Erro fetch:", err);
+    return [];
+  }
 }
 export async function getPlayers() {
   const res = await fetch(
-    "https://v3.football.api-sports.io/players?league=71&season=2026&page=1",
+    "https://v3.football.api-sports.io/players?league=71&season=2025&page=1",
     {
       headers: {
         "x-apisports-key": API_KEY,
@@ -47,6 +60,9 @@ export async function getPlayers() {
     }
   );
   const data = await res.json();
+
+  if (!data.response) return [];
+  console.log(data);
 
   return data.response.map((item) => ({
     id: item.player.id,
@@ -57,22 +73,29 @@ export async function getPlayers() {
   }));
 }
 export async function searchPlayers(name) {
-  const res = await fetch(
-    `https://v3.football.api-sports.io/players?search=${name}`,
-    {
-      headers: {
-        "x-apisports-key": API_KEY,
-      },
-    }
-  );
-  const data = await res.json();
+  try {
+    const res = await fetch(
+      `https://v3.football.api-sports.io/players?search=${name}&season=2024`,
+      {
+        headers: {
+          "x-apisports-key": API_KEY,
+        },
+      }
+    );
+    const data = await res.json();
+    console.log("PLAYERS:", data);
 
-  return data.response.map((item) => ({
-    id: item.player.id,
-    name: item.player.name,
-    photo: item.player.photo,
-    team: item.statistics[0]?.team?.name,
-  }));
+    if (!data || !data.response) return [];
+    return data.response.map((item) => ({
+      id: item.player.id,
+      name: item.player.name,
+      photo: item.player.photo,
+      team: item.statistics?.[0]?.team?.name || "Sem time",
+    }));
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
 }
 export async function getLeagues() {
   const res = await fetch(
@@ -84,5 +107,25 @@ export async function getLeagues() {
     }
   );
   const data = await res.json();
-  return data.response;
+  if (!data.response) return [];
+  
+  console.log(data); 
+}
+export async function getTeamsByLeague(leagueId) {
+  try {
+    const res = await fetch(
+      `https://v3.football.api-sports.io/teams?league=${leagueId}&season=2024`,
+      {
+        headers: {
+          "x-apisports-key": API_KEY,
+        },
+      }
+    );
+    const data = await res.json();
+
+    if (!data.response) return [];
+    return data.response;
+  } catch {
+    return [];
+  }
 }

@@ -1,24 +1,57 @@
+const API_KEY = "77c27e2481a0307bcc6abce6927e1918";
+
 export async function getGames() {
-  return [
+  const res = await fetch(
+    "https://v3.football.api-sports.io/fixtures?league=71&season=2023",
     {
-      id: 1,
-      home: "Real Madrid",
-      away: "Barcelona",
-      score: "2-1",
-      status: "LIVE",
-    },
-    {
-      id: 2,
-      home: "Liverpool",
-      away: "City",
-      score: "1-1",
-      status: "HT",
-    },
-  ];
+      headers: {
+        "x-apisports-key": API_KEY,
+      },
+      cache: "no-store",
+    }
+  );
+  const data = await res.json();
+
+  return data.response.map((item) => ({
+    id: item.fixture.id,
+    home: item.teams.home.name,
+    away: item.teams.away.name,
+    score: `${item.goals.home ?? 0}-${item.goals.away ?? 0}`,
+    status: item.fixture.status.short,
+  }));
 }
+// 🏆 TIMES
+export async function getTeams() {
+  const res = await fetch(
+    "https://v3.football.api-sports.io/teams?league=71&season=2023",
+    {
+      headers: {
+        "x-apisports-key": API_KEY,
+      },
+      cache: "no-store",
+    }
+  );
+  const data = await res.json();
+  return data.response;
+}
+// ⭐ JOGADORES
 export async function getPlayers() {
-  return [
-    { id: 1, name: "Messi", team: "Inter Miami", goals: 10 },
-    { id: 2, name: "Mbappé", team: "PSG", goals: 12 },
-  ];
+  const res = await fetch(
+    "https://v3.football.api-sports.io/players?league=71&season=2023&page=1",
+    {
+      headers: {
+        "x-apisports-key": API_KEY,
+      },
+      cache: "no-store",
+    }
+  );
+
+  const data = await res.json();
+
+  return data.response.map((item) => ({
+    id: item.player.id,
+    name: item.player.name,
+    team: item.statistics[0]?.team?.name || "Sem time",
+    goals: item.statistics[0]?.goals?.total || 0,
+  }));
 }

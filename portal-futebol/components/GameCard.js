@@ -1,7 +1,7 @@
 export default function GameCard({ home, away, score, status }) {
   return (
     <div style={styles.card}>
-      <div style={styles.teams}>
+      <div style={styles.info}>
         <span>{home}</span>
         <strong>{score}</strong>
         <span>{away}</span>
@@ -12,22 +12,25 @@ export default function GameCard({ home, away, score, status }) {
 }
 const styles = {
   card: {
-    background: "#1e293b",
+    background: "#ffffff",
+    color: "#000",
     padding: "20px",
     borderRadius: "12px",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    transition: "0.3s",
+    boxShadow: "0 6px 15px rgba(0,0,0,0.25)",
   },
-  teams: {
+  info: {
     display: "flex",
     gap: "15px",
     alignItems: "center",
+    fontWeight: "bold",
   },
   status: {
     background: "#ef4444",
-    padding: "5px 10px",
+    color: "#fff",
+    padding: "6px 12px",
     borderRadius: "8px",
     fontSize: "12px",
   },

@@ -1,8 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
   images: {
-  domains: ["www.thesportsdb.com"],
-}
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "api-football.com",
+      },
+    ],
+  },
 };
 export default nextConfig;

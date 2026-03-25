@@ -15,7 +15,7 @@ export default function Times() {
   return (
     <div>
       <h1>Times</h1>
-      {teams.map((item: any) => (
+      {teams.map((item) => (
         <div key={item.team.id}>
           <img src={item.team.logo} width={50} />
           <p>{item.team.name}</p>

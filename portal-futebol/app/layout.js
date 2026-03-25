@@ -1,6 +1,7 @@
 // app/layout.js
-import "./globals.css";
-import Navbar from "./components/Navbar";
+import "@/styles/globals.css";
+import Navbar from "@/components/Navbar";
+import GameCard from "@/components/GameCard";
 export const metadata = {
   title: "Portal de Futebol",
   description: "Projeto em Next.js",

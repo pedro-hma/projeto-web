@@ -1,37 +1,49 @@
-export default function GameCard({ home, away, score, status }) {
+export default function GameCard({
+  home,
+  away,
+  homeLogo,
+  awayLogo,
+  score,
+  status,
+}) {
   return (
     <div style={styles.card}>
-      <div style={styles.info}>
+      <div style={styles.team}>
+        <img src={homeLogo} width={30} />
         <span>{home}</span>
-        <strong>{score}</strong>
+      </div>
+      <strong>{score}</strong>
+      <div style={styles.team}>
+        <img src={awayLogo} width={30} />
         <span>{away}</span>
       </div>
-      <div style={styles.status}>{status}</div>
+
+      <span style={styles.status}>{status}</span>
     </div>
   );
 }
 const styles = {
   card: {
-    background: "#ffffff",
+    background: "#fff",
     color: "#000",
-    padding: "20px",
+    padding: "15px",
     borderRadius: "12px",
-    display: "flex",
-    justifyContent: "space-between",
+    display: "grid",
+    gridTemplateColumns: "1fr auto 1fr auto",
     alignItems: "center",
-    boxShadow: "0 6px 15px rgba(0,0,0,0.25)",
+    gap: "10px",
+    boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
   },
-  info: {
+  team: {
     display: "flex",
-    gap: "15px",
     alignItems: "center",
-    fontWeight: "bold",
+    gap: "8px",
   },
   status: {
-    background: "#ef4444",
+    background: "red",
     color: "#fff",
-    padding: "6px 12px",
-    borderRadius: "8px",
+    padding: "5px 8px",
+    borderRadius: "6px",
     fontSize: "12px",
   },
 };

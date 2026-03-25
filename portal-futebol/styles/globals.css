@@ -9,3 +9,11 @@ a {
 a:hover {
   color: #38bdf8;
 }
+div:hover {
+  transform: scale(1.02);
+}
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}

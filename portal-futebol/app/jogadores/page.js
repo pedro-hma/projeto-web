@@ -1,37 +1,39 @@
 "use client";
-
-import Navbar from "../../components/Navbar";
-import PlayerCard from "../../components/PlayerCard";
-import { getPlayers } from "../../lib/api";
-import { addFavorito } from "../../lib/favoritos";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { searchPlayers } from "../../lib/api";
 
 export default function Jogadores() {
   const [players, setPlayers] = useState([]);
-  useEffect(() => {
-    async function load() {
-      const data = await getPlayers();
-      setPlayers(data);
-    }
-    load();
-  }, []);
-  function handleFav(player) {
-    addFavorito(player);
-    alert("Adicionado aos favoritos!");
+  const [search, setSearch] = useState("");
+
+  async function handleSearch() {
+    const data = await searchPlayers(search);
+    setPlayers(data);
   }
   return (
-    <div style={{ background: "#020617", minHeight: "100vh" }}>
-      <Navbar />
-      <div style={{ padding: "20px", color: "#fff" }}>
-        <h1>⭐ Jogadores</h1>
-        {players.map((p) => (
-          <PlayerCard
-            key={p.id}
-            {...p}
-            onFav={() => handleFav(p)}
-          />
-        ))}
-      </div>
+    <div style={{ padding: "20px" }}>
+      <h1>🔎 Buscar Jogadores</h1>
+      <input
+        placeholder="Ex: Neymar"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <button onClick={handleSearch}>Buscar</button>
+      {players.map((p) => (
+        <div key={p.id} style={styles.card}>
+          <img src={p.photo} width={60} />
+          <p>{p.name}</p>
+          <p>{p.team}</p>
+        </div>
+      ))}
     </div>
   );
 }
+const styles = {
+  card: {
+    background: "#fff",
+    color: "#000",
+    padding: "10px",
+    marginTop: "10px",
+  },
+};

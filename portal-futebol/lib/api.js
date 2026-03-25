@@ -1,7 +1,7 @@
 const API_KEY = "77c27e2481a0307bcc6abce6927e1918";
 export async function getGames() {
   const res = await fetch(
-    "https://v3.football.api-sports.io/fixtures?league=71&season=2023",
+    "https://v3.football.api-sports.io/fixtures?league=71&season=2026",
     {
       headers: {
         "x-apisports-key": API_KEY,
@@ -25,7 +25,7 @@ export async function getGames() {
 // 🏆 TIMES
 export async function getTeams() {
   const res = await fetch(
-    "https://v3.football.api-sports.io/teams?league=71&season=2023",
+    "https://v3.football.api-sports.io/teams?league=71&season=2026",
     {
       headers: {
         "x-apisports-key": API_KEY,
@@ -38,7 +38,7 @@ export async function getTeams() {
 }
 export async function getPlayers() {
   const res = await fetch(
-    "https://v3.football.api-sports.io/players?league=71&season=2023&page=1",
+    "https://v3.football.api-sports.io/players?league=71&season=2026&page=1",
     {
       headers: {
         "x-apisports-key": API_KEY,
@@ -55,4 +55,34 @@ export async function getPlayers() {
     team: item.statistics[0]?.team?.name,
     goals: item.statistics[0]?.goals?.total || 0,
   }));
+}
+export async function searchPlayers(name) {
+  const res = await fetch(
+    `https://v3.football.api-sports.io/players?search=${name}`,
+    {
+      headers: {
+        "x-apisports-key": API_KEY,
+      },
+    }
+  );
+  const data = await res.json();
+
+  return data.response.map((item) => ({
+    id: item.player.id,
+    name: item.player.name,
+    photo: item.player.photo,
+    team: item.statistics[0]?.team?.name,
+  }));
+}
+export async function getLeagues() {
+  const res = await fetch(
+    "https://v3.football.api-sports.io/leagues",
+    {
+      headers: {
+        "x-apisports-key": API_KEY,
+      },
+    }
+  );
+  const data = await res.json();
+  return data.response;
 }

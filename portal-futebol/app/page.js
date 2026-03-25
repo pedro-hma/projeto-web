@@ -1,5 +1,7 @@
-import Link from "next/link";
+"use client";
 
+import Link from "next/link";
+import Parse from "./services/back4app";
 export default function Home() {
   return (
     <div className="space-y-8">
@@ -18,15 +20,20 @@ export default function Home() {
           </Link>
         <div className="bg-gray-900 p-6 rounded-xl hover:scale-105 transition">
           <h2 className="text-xl font-bold mb-2">👤 Jogadores</h2>
-          <p className="text-gray-400">
-            Explore jogadores e estatísticas
-          </p>
+          <p className="text-gray-400"> Explore jogadores e estatísticas</p>
         </div>
         <div className="bg-gray-900 p-6 rounded-xl hover:scale-105 transition">
           <h2 className="text-xl font-bold mb-2">⭐ Favoritos</h2>
-          <p className="text-gray-400">
-            Gerencie seus favoritos
-          </p>
+          <p className="text-gray-400">Gerencie seus favoritos</p>
+
+
+          <div className="grid">
+            <div className="card">
+              <h3>Jogos ao vivo</h3>
+              <p>Flamengo 2 x 1 Palmeiras</p>
+              <span>75'</span>
+              </div>
+              </div>
         </div>
 
       </section>

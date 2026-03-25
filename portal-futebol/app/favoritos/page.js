@@ -1,27 +1,41 @@
 "use client";
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
+import Parse from "@/services/back4app";
 export default function Favoritos() {
-  const [favoritos, setFavoritos] = useState([]);
-  function adicionar() {
-    const novo = {
-      id: Date.now(),
-      nome: "Time Exemplo",
-    };
-    setFavoritos([...favoritos, novo]);
-  }
-  function remover(id) {
-    setFavoritos(favoritos.filter((f) => f.id !== id));
-  }
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    async function loadFavorites() {
+      const query = new Parse.Query("Favorites");
+      const results = await query.find();
+
+      const data = results.map(item => ({
+        id: item.id,
+        name: item.get("name"),
+        logo: item.get("logo")
+      }));
+
+      setFavorites(data);
+    }
+
+    loadFavorites();
+  }, []);
+
   return (
-    <div>
-      <h1 className="text-2xl mb-4">Favoritos ⭐</h1>
-      <button onClick={adicionar}className="bg-green-500 p-2 rounded mb-4" >Adicionar exemplo </button>
-      {favoritos.map((f) => (
-        <div key={f.id}className="bg-gray-800 p-3 mb-2 flex justify-between">
-          <span>{f.nome}</span>
-          <button onClick={() => remover(f.id)}>❌</button>
-        </div>
-      ))}
+    <div className="p-5">
+      <h1 className="text-xl font-bold mb-4">⭐ Favoritos</h1>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {favorites.map(fav => (
+          <div key={fav.id} className="bg-gray-900 p-4 rounded-lg text-center">
+
+            <img src={fav.logo} className="w-16 mx-auto mb-2" />
+            <p className="text-white">{fav.name}</p>
+
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

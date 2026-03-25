@@ -55,3 +55,16 @@ export async function getPlayers() {
     goals: item.statistics[0]?.goals?.total || 0,
   }));
 }
+export async function getStandings() {
+  const res = await fetch(
+    "https://v3.football.api-sports.io/standings?league=71&season=2023",
+    {
+      headers: {
+        "x-apisports-key": API_KEY,
+      },
+      cache: "no-store",
+    }
+  );
+  const data = await res.json();
+  return data.response[0].league.standings[0];
+}

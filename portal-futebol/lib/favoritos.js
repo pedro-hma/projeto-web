@@ -3,6 +3,8 @@ export function getFavoritos() {
 }
 export function addFavorito(item) {
   const lista = getFavoritos();
+  const exists = lista.find((f) => f.id === item.id);
+  if (exists) return;
   lista.push(item);
   localStorage.setItem("favoritos", JSON.stringify(lista));
 }

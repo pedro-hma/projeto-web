@@ -20,13 +20,15 @@ export default function Home() {
           </Link>
         <div className="bg-gray-900 p-6 rounded-xl hover:scale-105 transition">
           <h2 className="text-xl font-bold mb-2">👤 Jogadores</h2>
+          <Link href="/jogadores">
           <p className="text-gray-400"> Explore jogadores e estatísticas</p>
+          </Link>
         </div>
         <div className="bg-gray-900 p-6 rounded-xl hover:scale-105 transition">
           <h2 className="text-xl font-bold mb-2">⭐ Favoritos</h2>
+          <Link href="/favoritos">
           <p className="text-gray-400">Gerencie seus favoritos</p>
-
-
+          </Link>
           <div className="grid">
             <div className="card">
               <h3>Jogos ao vivo</h3>
@@ -35,9 +37,7 @@ export default function Home() {
               </div>
               </div>
         </div>
-
       </section>
-
     </div>
   );
 }

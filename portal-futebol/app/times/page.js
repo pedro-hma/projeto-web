@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getTeams } from "../../lib/api";
 import { addFavorito } from "../../lib/favoritos";
 
+
 export default function Times() {
   const [teams, setTeams] = useState([]);
   const [search, setSearch] = useState("");

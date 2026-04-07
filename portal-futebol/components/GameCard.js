@@ -8,16 +8,16 @@ export default function GameCard({
 }) {
   return (
     <div style={styles.card}>
-      <div style={styles.team}>
-        <img src={homeLogo} width={30} />
-        <span>{home}</span>
-      </div>
-      <strong>{score}</strong>
-      <div style={styles.team}>
-        <img src={awayLogo} width={30} />
-        <span>{away}</span>
-      </div>
-
+     <div className="bg-zinc-900 p-4 rounded hover:scale-105 transition duration-200">
+        <h2 className="text-lg font-bold">{league}</h2>
+        
+        <div className="flex justify-between items-center mt-3">
+          <span>{homeTeam}</span>
+          <strong>{score}</strong>
+          <span>{awayTeam}</span>
+          </div>
+          </div>
+          
       <span style={styles.status}>{status}</span>
     </div>
   );

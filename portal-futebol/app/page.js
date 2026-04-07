@@ -1,34 +1,38 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
-import GameCard from "../components/GameCard";
-import { getGames } from "../lib/api";
+import { useEffect, useState } from "react";
+import { getGames } from "@/lib/api";
+import { useGames } from "./hooks/useGames";
 
 export default function Home() {
   const [games, setGames] = useState([]);
-  const prevGames = useRef([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   async function loadGames() {
-    const data = await getGames();
-    data.forEach((game) => {
-      const old = prevGames.current.find((g) => g.id === game.id);
-      if (old && old.score !== game.score) {
-        alert(`⚽ GOL! ${game.home} ${game.score} ${game.away}`);
-      }
-    });
-    prevGames.current = data;
-    setGames(data);
+    setLoading(true);
+    try {
+      const data = await getGames();
+      setGames(data);
+    } catch (err) {
+      setError("Erro ao carregar jogos");
+    } finally {
+      setLoading(false);
+    }
   }
   useEffect(() => {
-    loadGames();
-    const interval = setInterval(loadGames, 20000); // 20s
-    return () => clearInterval(interval);
-  }, []);
-  return (
-    <div style={{ padding: "30px" }}>
-      <h1>🔴 Jogos ao vivo</h1>
+  loadGames();
 
-      {games.map((g) => (
-        <GameCard key={g.id} {...g} />
-      ))}
-    </div>
+  const interval = setInterval(loadGames, 20000);
+
+  return () => clearInterval(interval);
+}, []);
+  if (loading) return <p>Carregando jogos...</p>;
+  if (error) return <p>{error}</p>;
+  return (
+     <main className="p-4">
+    <h1 className="text-2xl font-bold mb-4">Jogos ao vivo</h1>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {games.map((game) => (<GameCard key={game.id} game={game} />))}</div>
+      </main>
   );
 }

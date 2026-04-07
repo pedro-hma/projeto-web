@@ -1,3 +1,15 @@
+import toast from "react-hot-toast";
+
+function addFavorito(game) {
+  const data = localStorage.getItem("favoritos");
+  const favoritos = data ? JSON.parse(data) : [];
+
+  const novo = [...favoritos, game];
+
+  localStorage.setItem("favoritos", JSON.stringify(novo));
+
+  toast.success("Adicionado aos favoritos ⭐");
+}
 export default function GameCard({
   home,
   away,

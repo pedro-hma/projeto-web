@@ -1,3 +1,13 @@
+import toast from "react-hot-toast";
+
+async function loadGames() {
+  try {
+    const data = await getGames();
+    setGames(data);
+  } catch (err) {
+    toast.error("Erro ao carregar jogos");
+  }
+}
 export async function getGames() {
   try {
     const res = await fetch(

@@ -1,13 +1,5 @@
-import toast from "react-hot-toast";
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
-async function loadGames() {
-  try {
-    const data = await getGames();
-    setGames(data);
-  } catch (err) {
-    toast.error("Erro ao carregar jogos");
-  }
-}
 export async function getGames() {
   try {
     const res = await fetch(
@@ -27,14 +19,34 @@ export async function getGames() {
       id: item.fixture.id,
       home: item.teams.home.name,
       away: item.teams.away.name,
-      homeLogo: item.teams.home.logo,
-      awayLogo: item.teams.away.logo,
+      league: item.league.name,
       score: `${item.goals.home ?? 0}-${item.goals.away ?? 0}`,
-      status: item.fixture.status.short,
     }));
 
   } catch (err) {
     console.error(err);
     throw err;
+  }
+}
+export async function getTeams() {
+  try {
+    const res = await fetch(
+      "https://v3.football.api-sports.io/teams?league=71&season=2024",
+      {
+        headers: {
+          "x-apisports-key": API_KEY,
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    if (!data || !data.response) return [];
+
+    return data.response;
+
+  } catch (err) {
+    console.error(err);
+    return [];
   }
 }

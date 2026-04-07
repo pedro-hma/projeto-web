@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { getGames } from "@/lib/api";
 import { useGames } from "./hooks/useGames";
+import GameCard from "@/components/GameCard";
 
 export default function Home() {
   const [games, setGames] = useState([]);
@@ -28,11 +29,13 @@ export default function Home() {
   if (loading) return <p>Carregando jogos...</p>;
   if (error) return <p>{error}</p>;
   return (
-     <main className="p-4">
-    <h1 className="text-2xl font-bold mb-4">Jogos ao vivo</h1>
-
+     <main className="p-6 bg-zinc-950 min-h-screen text-white">
+  <h1 className="text-3xl font-bold mb-6">⚽ Jogos ao vivo</h1>
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {games.map((game) => (<GameCard key={game.id} game={game} />))}</div>
-      </main>
+    {games.map((game) => (
+      <GameCard key={game.id} game={game} />
+    ))}
+  </div>
+</main>
   );
 }

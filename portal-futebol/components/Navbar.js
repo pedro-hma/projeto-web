@@ -1,31 +1,28 @@
-"use client";
 import Link from "next/link";
+
 export default function Navbar() {
   return (
-    <nav style={styles.nav}>
-      <h2 style={styles.logo}>⚽ Football Hub</h2>
-      <div style={styles.links}>
-        <Link href="/">Home</Link>
-        <Link href="/times">Times</Link>
-        <Link href="/jogadores">Jogadores</Link>
-        <Link href="/favoritos">Favoritos</Link>
+    <nav className="bg-zinc-900 border-b border-zinc-800 px-6 py-4 flex justify-between items-center">
+      
+      <h1 className="text-xl font-bold text-green-400">
+        ⚽ Portal Futebol
+      </h1>
+
+      <div className="flex gap-6 text-sm">
+        <Link href="/" className="hover:text-green-400 transition">
+          Jogos
+        </Link>
+        <Link href="/favoritos" className="hover:text-green-400 transition">
+          Favoritos
+        </Link>
+        <Link href="/times" className="hover:text-green-400 transition">
+          Times
+        </Link>
+        <Link href="/jogadores" className="hover:text-green-400 transition">
+          Jogadores
+        </Link>
       </div>
+
     </nav>
   );
 }
-const styles = {
-  nav: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "15px 30px",
-    background: "#0f172a",
-    color: "#fff",
-  },
-  logo: {
-    fontWeight: "bold",
-  },
-  links: {
-    display: "flex",
-    gap: "20px",
-  },
-};

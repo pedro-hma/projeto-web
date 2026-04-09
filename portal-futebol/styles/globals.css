@@ -3,18 +3,24 @@
 @tailwind utilities;
 
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
 }
-a {
-  color: white;
-  text-decoration: none;
+.card {
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 16px;
+  transition: all 0.3s ease;
 }
-a:hover {
-  color: #38bdf8;
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
-div:hover {
-  transform: scale(1.02);
+.btn {
+  border-radius: 12px;
+  padding: 8px 12px;
+  transition: 0.2s;
 }
 @keyframes pulse {
   0% { opacity: 0.4; }

@@ -2,16 +2,13 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="bg-zinc-900 border-b border-zinc-800 px-6 py-4 flex justify-between items-center">
-
-      <h1 className="text-lg font-bold text-green-400 flex items-center gap-2">⚽ Portal Futebol</h1>
-
-      <div className="flex gap-6 text-sm">
-        <Link href="/" className="hover:text-green-400 transition">Jogos</Link>
-        <Link href="/favoritos" className="hover:text-green-400 transition">Favoritos</Link>
-        <Link href="/times" className="hover:text-green-400 transition">Times</Link>
-      </div>
-
-    </nav>
+    <nav className="flex justify-between items-center p-4 bg-gray-900 shadow">
+  <h1 className="text-xl font-bold text-yellow-400">⚽ Football Hub</h1>
+  <div className="flex gap-4">
+    <a href="/times" className="hover:text-yellow-400">Times</a>
+    <a href="/jogadores" className="hover:text-yellow-400">Jogadores</a>
+    <a href="/favoritos" className="hover:text-yellow-400">Favoritos</a>
+  </div>
+</nav>
   );
 }

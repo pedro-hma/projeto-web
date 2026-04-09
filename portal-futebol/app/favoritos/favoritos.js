@@ -1,34 +1,44 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { getFavorites, deleteFavorite } from "@/lib/favoritos";
 
 export default function Favoritos() {
-  const [favoritos, setFavoritos] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    const data = localStorage.getItem("favoritos");
-    if (data) setFavoritos(JSON.parse(data));
+    loadFavorites();
   }, []);
 
-  if (favoritos.length === 0) {
-    return (
-      <div className="text-center mt-20 text-zinc-400">
-        Nenhum favorito ainda ⭐
-      </div>
-    );
-  }
+  const loadFavorites = async () => {
+    const data = await getFavorites();
+    setFavorites(data);
+  };
+
+  const handleDelete = async (id) => {
+    await deleteFavorite(id);
+    loadFavorites();
+  };
 
   return (
-    <main className="p-6">
-      <h1 className="text-2xl font-bold mb-6">⭐ Favoritos</h1>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">⭐ Favoritos</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {favoritos.map((game) => (
-          <div key={game.id} className="bg-zinc-900 p-4 rounded-xl">
-            {game.home} {game.score} {game.away}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {favorites.map(fav => (
+          <div key={fav.id} className="bg-white p-4 rounded-xl shadow">
+            <img src={fav.image} className="w-16 mx-auto" />
+            <p className="text-center mt-2">{fav.name}</p>
+
+            <button
+              onClick={() => handleDelete(fav.id)}
+              className="mt-3 w-full bg-red-500 text-white py-1 rounded"
+            >
+              Remover
+            </button>
           </div>
         ))}
       </div>
-    </main>
+    </div>
   );
 }

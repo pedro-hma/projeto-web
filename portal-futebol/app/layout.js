@@ -1,12 +1,10 @@
-import "../styles/globals.css";
+import "@/styles/globals.css";
 import { Toaster } from "react-hot-toast";
-import Navbar from "@/components/Navbar";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-      <body className="bg-zinc-950 text-white">
-        <Navbar />
+      <body className="bg-slate-900 text-white">
         {children}
         <Toaster position="top-right" />
       </body>

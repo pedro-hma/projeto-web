@@ -1,19 +1,28 @@
+"use client";
+
 import { useEffect, useState } from "react";
-import { getGames } from "@/lib/api";
 
 export function useGames() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  async function loadGames() {
-    setLoading(true);
-    const data = await getGames();
-    setGames(data);
-    setLoading(false);
-  }
-
   useEffect(() => {
-    loadGames();
+    const fetchGames = async () => {
+      try {
+        const res = await fetch(
+          "https://www.thesportsdb.com/api/v1/json/3/livescore.php?s=Soccer"
+        );
+
+        const data = await res.json();
+        setGames(data.events || []);
+      } catch (error) {
+        console.error("Erro ao buscar jogos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGames();
   }, []);
 
   return { games, loading };

@@ -1,57 +1,43 @@
-import toast from "react-hot-toast";
-
-function addFavorito(game) {
-  const data = localStorage.getItem("favoritos");
-  const favoritos = data ? JSON.parse(data) : [];
-
-  const exists = favoritos.some((f) => f.id === game.id);
-
-  if (exists) {
-    toast("Já está nos favoritos ⭐");
-    return;
-  }
-
-  const updated = [...favoritos, game];
-  localStorage.setItem("favoritos", JSON.stringify(updated));
-
-  toast.success("Adicionado ⭐");
-}
+"use client";
 
 export default function GameCard({ game }) {
   return (
-    <div className="bg-zinc-900 border border-zinc-800 hover:border-green-500 rounded-2xl p-5 transition duration-300 hover:shadow-xl hover:scale-[1.02]">
+    <div className="bg-gray-800 rounded-2xl p-4 shadow-lg hover:scale-105 transition cursor-pointer">
 
-      {/* Liga + status */}
-      <div className="flex justify-between items-center text-xs text-zinc-400 uppercase tracking-wide">
-        <span>{game.league}</span>
-        <span className="bg-green-600 text-white px-2 py-1 rounded-md text-[10px]">
-          {game.status || "LIVE"}
-        </span>
+      {/* HEADER */}
+      <div className="flex justify-between items-center mb-2">
+        <span className="text-xs text-gray-400">{game.strLeague}</span>
+        <span className="text-red-500 text-xs font-bold animate-pulse">🔴 LIVE</span>
       </div>
 
-      {/* Conteúdo */}
-      <div className="flex items-center justify-between mt-5">
+      {/* TIMES */}
+      <div className="flex justify-between items-center mt-4">
 
-        {/* Time casa */}
-        <div className="flex flex-col items-center w-1/3">
-          <img src={game.homeLogo} className="w-10 h-10 object-contain mb-2" />
-          <span className="text-sm text-center">{game.home}</span>
+        <div className="text-center w-1/3">
+          <p className="font-semibold text-sm">
+            {game.strHomeTeam}
+          </p>
         </div>
 
-        {/* Placar */}
-        <div className="text-2xl font-bold text-green-400">
-          {game.score}
+        <div className="text-center w-1/3">
+          <p className="text-lg font-bold">
+            {game.intHomeScore ?? "-"} x {game.intAwayScore ?? "-"}
+          </p>
         </div>
 
-        {/* Time visitante */}
-        <div className="flex flex-col items-center w-1/3">
-          <img src={game.awayLogo} className="w-10 h-10 object-contain mb-2" />
-          <span className="text-sm text-center">{game.away}</span>
+        <div className="text-center w-1/3">
+          <p className="font-semibold text-sm">
+            {game.strAwayTeam}
+          </p>
         </div>
+
       </div>
 
-      {/* Botão */}
-      <button onClick={() => addFavorito(game)}className="mt-5 w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 rounded-xl transition">⭐ Favoritar</button>
+      {/* STATUS */}
+      <p className="text-xs text-gray-400 text-center mt-3">
+        {game.strStatus}
+      </p>
+
     </div>
   );
 }

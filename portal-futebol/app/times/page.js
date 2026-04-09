@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getTeams } from "../../lib/api";
-import { addFavorito } from "../../lib/favoritos";
-
+import { addFavorite } from "@/lib/favoritos";
 
 export default function Times() {
   const [teams, setTeams] = useState([]);
@@ -30,23 +29,17 @@ export default function Times() {
       <h1>🏆 Times</h1>
 
       {/* 🔎 BUSCA */}
-      <input
-        placeholder="Buscar time..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={styles.input}
-      />
+      <input placeholder="Buscar time..."value={search} onChange={(e) => setSearch(e.target.value)}style={styles.input}/>
       <div style={styles.grid}>
         {filtered.map((item) => (
           <div key={item.team.id} style={styles.card}>
             <img src={item.team.logo} width={60} />
+            <button onClick={() => addFavorite(team)}>⭐ Favoritar</button>
             <h3>{item.team.name}</h3>
-            <button onClick={() => handleFav(item)}>
-              ⭐ Favoritar
-            </button>
           </div>
         ))}
       </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6">{teams.map(team => (<GameCard key={team.id} team={team} />))}</div>
     </div>
   );
 }

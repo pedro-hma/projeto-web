@@ -14,7 +14,7 @@ export default function Jogadores() {
     <div style={{ padding: "20px" }}>
       <h1>🔎 Buscar Jogadores</h1>
       <div style={styles.searchBox}>
-        <input placeholder="Digite o nome do jogador"value={search}nChange={(e) => setSearch(e.target.value)}/>
+       <input type="text"placeholder="Buscar jogador..."className="w-full p-3 rounded-xl bg-gray-800 text-white outline-none mb-6"/>
         <button onClick={handleSearch}>Buscar</button>
         </div>
       {players.length === 0 && <p>Nenhum jogador encontrado</p>}

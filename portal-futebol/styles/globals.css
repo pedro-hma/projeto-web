@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 body {
-  background: #0f172a;
-  color: #e5e7eb;
+  transition: background 0.3s;
 }
 .card {
   background: #1e293b;

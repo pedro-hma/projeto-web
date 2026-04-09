@@ -3,17 +3,15 @@
 import Parse from "parse/dist/parse.min.js";
 const ParseFixed = Parse.default || Parse;
 
-export const addFavorite = async (team) => {
+export const addFavoriteGame = async (game) => {
   const Favorite = Parse.Object.extend("Favorites");
   const fav = new Favorite();
 
-  fav.set("name", team.name);
-  fav.set("image", team.logo);
-  fav.set("type", "team");
+  fav.set("name", `${game.strHomeTeam} vs ${game.strAwayTeam}`);
+  fav.set("type", "game");
 
   await fav.save();
 };
-
 export const getFavorites = async () => {
   const query = new Parse.Query("Favorites");
   const results = await query.find();

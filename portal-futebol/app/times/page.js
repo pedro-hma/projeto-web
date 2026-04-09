@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getTeams } from "../../lib/api";
-import { addFavorite } from "@/lib/favoritos";
+import { addFavoriteGame } from "@/lib/favoritos";
 
 export default function Times() {
   const [teams, setTeams] = useState([]);

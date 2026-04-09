@@ -1,39 +1,33 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { addFavoriteGame } from "@/lib/favoritos";
-import toast from "react-hot-toast";
 
 export default function GameCard({ game }) {
   const router = useRouter();
 
-  const handleFav = async (e) => {
-    e.stopPropagation();
-    await addFavoriteGame(game);
-    toast.success("Jogo favoritado ⭐");
-  };
-
   return (
-    <div onClick={() => router.push(`/jogo/${game.idEvent}`)}className="bg-gray-800 rounded-2xl p-4 shadow-lg hover:scale-105 transition cursor-pointer">
-      {/* HEADER */}
-      <div className="flex justify-between mb-2">
-        <span className="text-xs text-gray-400">
-          {game.strLeague}
+    <div
+      onClick={() => router.push(`/jogo/${game.id}`)}
+      className="bg-gray-900 border border-gray-800 rounded-xl p-4 cursor-pointer hover:scale-[1.02] transition-all"
+    >
+      <p className="text-xs text-gray-400 mb-2">
+        {game?.competition?.name || "Liga"}
+      </p>
+
+      <div className="flex justify-between items-center">
+        <span>{game?.homeTeam?.name}</span>
+        <span className="font-bold text-green-400">
+          {game?.homeTeam?.score?.current ?? 0}
         </span>
-        <span className="text-red-500 text-xs animate-pulse">🔴 LIVE</span>
       </div>
 
-      {/* TIMES */}
-      <div className="flex justify-between items-center mt-4">
-        <p className="w-1/3 text-center">{game.strHomeTeam}</p>
-        <p className="text-lg font-bold">{game.intHomeScore ?? "-"} x {game.intAwayScore ?? "-"}</p>
-        <p className="w-1/3 text-center">{game.strAwayTeam}</p>
+      <div className="flex justify-between items-center mt-2">
+        <span>{game?.awayTeam?.name}</span>
+        <span className="font-bold text-green-400">
+          {game?.awayTeam?.score?.current ?? 0}
+        </span>
       </div>
 
-      {/* STATUS */}
-      <p className="text-center text-xs text-gray-400 mt-3">{game.strStatus}</p>
-
-      {/* BOTÃO FAVORITO */}
-      <button onClick={handleFav}className="mt-4 bg-yellow-400 text-black w-full py-1 rounded" >⭐ Favoritar</button>
+      <p className="text-xs text-red-400 mt-2">● LIVE</p>
     </div>
   );
 }

@@ -1,77 +1,63 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getStandings } from "@/lib/api";
-import { motion } from "framer-motion";
+import { getLeagues, getStandings } from "@/lib/api";
 
-const leagues = [
-  { name: "Premier League", id: "4328" },
-  { name: "La Liga", id: "4335" },
-  { name: "Serie A", id: "4332" },
-];
 export default function Tabela() {
+  const [leagues, setLeagues] = useState([]);
   const [table, setTable] = useState([]);
-  const [league, setLeague] = useState("4328");
+  const [league, setLeague] = useState("");
+  const [season, setSeason] = useState("2023");
+
   useEffect(() => {
-  const fetchTable = async () => {
-    const data = await getStandings(league);
+    const fetch = async () => {
+      const l = await getLeagues();
+      setLeagues(l);
+      if (l[0]) {
+        setLeague(l[0].id);
+        const t = await getStandings(l[0].id, season);
+        setTable(t);
+      }
+    };
+    fetch();
+  }, []);
 
-    console.log("Quantidade de times:", data.length);
-
-    setTable(data);
+  const update = async (id, s) => {
+    const t = await getStandings(id, s);
+    setTable(t);
   };
 
-  fetchTable();
-}, [league]);
   return (
-    <div className="p-6">
-      {/* 🔽 DROPDOWN */}
-      <select onChange={(e) => setLeague(e.target.value)}className="bg-gray-800 p-2 rounded mb-6">
-        {leagues.map((l) => (
-          <option key={l.id} value={l.id}>
-            {l.name}
-          </option>
-        ))}
-      </select>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm bg-gray-800 rounded-xl overflow-hidden">
-          <thead className="bg-gray-700">
-            <tr>
-              <th>#</th>
-              <th>Time</th>
-              <th>Pts</th>
-              <th>J</th>
-              <th>V</th>
-              <th>E</th>
-              <th>D</th>
-            </tr>
-          </thead>
-          <tbody>
-            {table.map((team) => {
-              const rank = Number(team.intRank);
-              let bg = "";
-              if (rank <= 4) bg = "bg-green-900";
-              else if (rank >= 18) bg = "bg-red-900";
-              else if (rank <= 6) bg = "bg-blue-900";
-              return (
-                <tr key={team.idTeam}className={`${bg} text-center border-b border-gray-800 hover:bg-gray-800 transition`}>
-                  <td>{rank}</td>
-                  <td className="flex items-center gap-2 p-2">
-                    <img src={team.strTeamBadge} className="w-6" />
-                    {team.strTeam}
-                  </td>
-                  <td>{team.intPoints}</td>
-                  <td>{team.intPlayed}</td>
-                  <td>{team.intWin}</td>
-                  <td>{team.intDraw}</td>
-                  <td>{team.intLoss}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+    <div className="space-y-6">
+
+      <div className="flex gap-2">
+        <select onChange={(e) => {
+          setLeague(e.target.value);
+          update(e.target.value, season);
+        }}>
+          {leagues.map(l => (
+            <option key={l.id} value={l.id}>{l.name}</option>
+          ))}
+        </select>
+
+        <select onChange={(e) => {
+          setSeason(e.target.value);
+          update(league, e.target.value);
+        }}>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+        </select>
       </div>
-      <motion.div initial={{ opacity: 0, y: 20 }}animate={{ opacity: 1, y: 0 }}>{/* tabela */}</motion.div>
+
+      <div className="card">
+        {table.map((t, i) => (
+          <div key={i} className="flex justify-between p-2 border-b">
+            <span>{i + 1}. {t.name}</span>
+            <span>{t.points}</span>
+          </div>
+        ))}
+      </div>
+
     </div>
   );
 }

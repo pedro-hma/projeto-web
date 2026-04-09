@@ -5,111 +5,46 @@ const headers = {
   "X-RapidAPI-Host": "soccer-data.p.rapidapi.com",
 };
 
-const BASE_URL = "https://soccer-data.p.rapidapi.com";
+const BASE = "https://soccer-data.p.rapidapi.com";
 
-/* =========================
-   🔴 JOGOS AO VIVO
-========================= */
 export const getLiveGames = async () => {
-  try {
-    const res = await fetch(`${BASE_URL}/daily-match-list-live`, {
-      headers,
-    });
-
-    const data = await res.json();
-    return data?.data || [];
-  } catch (err) {
-    console.error("Erro live:", err);
-    return [];
-  }
+  const res = await fetch(`${BASE}/matches/live`, { headers });
+  const data = await res.json();
+  return data?.data || [];
 };
 
-/* =========================
-   📅 JOGOS DO DIA
-========================= */
 export const getTodayGames = async () => {
-  try {
-    const res = await fetch(`${BASE_URL}/daily-match-list-all`, {
-      headers,
-    });
-
-    const data = await res.json();
-    return data?.data || [];
-  } catch (err) {
-    console.error("Erro today:", err);
-    return [];
-  }
+  const res = await fetch(`${BASE}/matches`, { headers });
+  const data = await res.json();
+  return data?.data || [];
 };
 
-/* =========================
-   🏆 LIGAS
-========================= */
 export const getLeagues = async () => {
-  try {
-    const res = await fetch(`${BASE_URL}/tournaments`, {
-      headers,
-    });
-
-    const data = await res.json();
-    return data?.data || [];
-  } catch (err) {
-    console.error("Erro leagues:", err);
-    return [];
-  }
+  const res = await fetch(`${BASE}/tournaments`, { headers });
+  const data = await res.json();
+  return data?.data || [];
 };
 
-/* =========================
-   📊 TABELA (STANDINGS)
-========================= */
-export const getStandings = async (tournamentId) => {
-  try {
-    const res = await fetch(
-      `${BASE_URL}/tournament/standings?tournamentId=${tournamentId}`,
-      { headers }
-    );
-
-    const data = await res.json();
-
-    // ⚠️ pode variar estrutura
-    return data?.data?.standings || data?.data || [];
-  } catch (err) {
-    console.error("Erro standings:", err);
-    return [];
-  }
+export const getStandings = async (id, season = "2023") => {
+  const res = await fetch(
+    `${BASE}/tournament/standings?tournamentId=${id}&season=${season}`,
+    { headers }
+  );
+  const data = await res.json();
+  return data?.data?.standings || [];
 };
 
-/* =========================
-   🧑‍🤝‍🧑 TIMES
-========================= */
-export const getTeams = async (tournamentId) => {
-  try {
-    const res = await fetch(
-      `${BASE_URL}/teams?tournamentId=${tournamentId}`,
-      { headers }
-    );
-
-    const data = await res.json();
-    return data?.data || [];
-  } catch (err) {
-    console.error("Erro teams:", err);
-    return [];
-  }
+export const getTeamsByLeague = async (id) => {
+  const res = await fetch(`${BASE}/teams?tournamentId=${id}`, { headers });
+  const data = await res.json();
+  return data?.data || [];
 };
 
-/* =========================
-   🔍 JOGADORES (BUSCA)
-========================= */
 export const searchPlayers = async (name) => {
-  try {
-    const res = await fetch(
-      `${BASE_URL}/players/search?name=${name}`,
-      { headers }
-    );
-
-    const data = await res.json();
-    return data?.data || [];
-  } catch (err) {
-    console.error("Erro players:", err);
-    return [];
-  }
+  const res = await fetch(
+    `${BASE}/players/search?name=${name}`,
+    { headers }
+  );
+  const data = await res.json();
+  return data?.data || [];
 };
